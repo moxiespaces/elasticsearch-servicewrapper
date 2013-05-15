@@ -88,13 +88,13 @@ WAIT_FOR_STARTED_TIMEOUT=120
 
 # Specify the number of open files ulimit for the above user
 # recommended value: 32000
-#ULIMIT_N=
+ULIMIT_N=65535
 
 # By default we show a detailed usage block.  Uncomment to show brief usage.
 #BRIEF_USAGE=true
 
 # flag for using upstart when installing (rather than init.d rc.d)
-USE_UPSTART=
+USE_UPSTART=1
 
 # When installing on On Mac OSX platforms, the following domain will be used to
 #  prefix the plist file name.
@@ -1034,7 +1034,10 @@ installUpstart() {
         echo "start on runlevel [2345]" >> "/etc/init/${APP_NAME}.conf"
         echo "stop on runlevel [!2345]" >> "/etc/init/${APP_NAME}.conf"
         echo "env LANG=${LANG}" >> "/etc/init/${APP_NAME}.conf"
+				echo "script"
+				echo "ulimit -n ${ULIMIT_N}"
        echo "exec \"${REALPATH}\" upstartinternal" >> "/etc/init/${APP_NAME}.conf"
+				echo "end script"
     fi
 }
 
